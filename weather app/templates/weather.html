@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>Weather</title>
+</head>
+<body>
+    <script src="{{url_for('static', filename='js.js')}}"></script>
+    <header>
+        <nav>
+            {% with messages = get_flashed_messages(with_categories = true) %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+            <div style="display: flex;" id="messages">
+                <h2>{{ message }}</h2>
+                <button onclick="remove()">&times;</button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endwith %}
+        </nav>
+    </header>
+    <div class="container">
+        <form method="POST">
+            <label>Enter city name</label>
+            <input type="text" name="city">
+            <button type="submit">Search</button>
+        </form>
+        {% if data == 200 %}
+        <div class="weather-info">
+            <h1>{{city.capitalize()}} Temperature is {{temp}}°F</h1>
+            <h1>{{city.capitalize()}} Temperature in Celsius is {{tempC}}°C</h1>
+            <h1>Weather is {{weather}}</h2>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
